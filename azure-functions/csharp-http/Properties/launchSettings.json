@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ravendb_template_azure_functions_csharp": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7265",
+      "launchBrowser": false
+    }
+  }
+}

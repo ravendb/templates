@@ -1,13 +1,6 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "metadata": {
-    "_generator": {
-      "name": "bicep",
-      "version": "0.14.46.61228",
-      "templateHash": "1987928307124973420"
-    }
-  },
   "parameters": {
     "siteName": {
       "type": "string",
@@ -55,7 +48,7 @@
             },
             {
               "name": "RavenSettings__DatabaseName",
-              "value": "Northwind"
+              "value": ""
             },
             {
               "name": "RavenSettings__CertThumbprint",
@@ -81,17 +74,17 @@
     },
     {
       "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "2022-03-01",
+      "apiVersion": "2022-09-01",
       "name": "[variables('hostingPlanName')]",
       "location": "[parameters('location')]",
-      "kind": "windows",
-      "properties": {
-        "reserved": true
-      },
       "sku": {
-        "tier": "Standard",
-        "name": "S1"
-      }
+        "name": "Y1",
+        "tier": "Dynamic",
+        "size": "Y1",
+        "family": "Y",
+        "capacity": 0
+      },
+      "kind": "functionapp"
     },
     {
       "type": "Microsoft.Storage/storageAccounts",

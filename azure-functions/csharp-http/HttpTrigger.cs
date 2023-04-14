@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -7,6 +6,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Raven.Client.Documents.Session;
+using Raven.Client.ServerWide.Operations;
 
 namespace Company.FunctionApp
 {
@@ -22,17 +22,41 @@ namespace Company.FunctionApp
     [FunctionName("HttpTrigger")]
     public async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-        ILogger log)
+        ILogger log,
+        ExecutionContext context)
     {
-      log.LogInformation("C# HTTP trigger function processed a request.");
+      log.LogInformation("C# {0} function processed a request.", context.FunctionName);
 
-      var node = await session.Advanced.GetCurrentSessionNode();
+      var welcomeData = new WelcomeData()
+      {
+        url = session.Advanced.DocumentStore.Urls[0],
+        database = session.Advanced.DocumentStore.Database,
+        functionName = context.FunctionName,
+        invocationId = context.InvocationId.ToString(),
+        connected = true,
+      };
 
-      string responseMessage = string.IsNullOrEmpty(node.ClusterTag)
-          ? "Successfully connected to RavenDB"
-          : $"Successfully connected to RavenDB - Node {node.ClusterTag}";
+      try
+      {
+        var buildOpResult = await session.Advanced.DocumentStore.Maintenance.Server.SendAsync(
+          new GetBuildNumberOperation()
+        );
+        welcomeData.version = buildOpResult.ProductVersion;
+      }
+      catch (Exception ex)
+      {
+        welcomeData.connected = false;
+        welcomeData.error = ex;
+      }
 
-      return new OkObjectResult(responseMessage);
+      var content = await WelcomeTemplate.RenderHtmlAsync(welcomeData);
+
+      return new ContentResult()
+      {
+        Content = content,
+        ContentType = "text/html",
+        StatusCode = 200
+      };
     }
   }
 }

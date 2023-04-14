@@ -43,12 +43,12 @@
               "value": "~4"
             },
             {
-              "name": "RavenSettings__Urls",
+              "name": "RavenSettings__Urls__0",
               "value": "http://live-test.ravendb.net"
             },
             {
               "name": "RavenSettings__DatabaseName",
-              "value": ""
+              "value": "(not set)"
             },
             {
               "name": "RavenSettings__CertThumbprint",

@@ -42,6 +42,10 @@
         "siteConfig": {
           "appSettings": [
             {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "~16"
+            },
+            {
               "name": "FUNCTIONS_WORKER_RUNTIME",
               "value": "node"
             },

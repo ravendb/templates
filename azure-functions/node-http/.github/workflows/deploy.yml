@@ -1,0 +1,28 @@
+name: deploy
+on:
+  push:
+  pull_request:
+  repository_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "."
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version-file: ".nvmrc"
+          registry-url: "https://registry.npmjs.org"
+          cache: npm
+      - run: npm install
+      - run: npm run build
+
+      - uses: Azure/functions-action@v1
+        with:
+          app-name: "ravendb-template-windows"
+          slot-name: "production"
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}

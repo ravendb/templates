@@ -43,7 +43,7 @@
           "appSettings": [
             {
               "name": "FUNCTIONS_WORKER_RUNTIME",
-              "value": "nodejs"
+              "value": "node"
             },
             {
               "name": "FUNCTIONS_EXTENSION_VERSION",
@@ -51,11 +51,11 @@
             },
             {
               "name": "DB_URLS",
-              "value": "http://live-test.ravendb.net"
+              "value": ""
             },
             {
               "name": "DB_NAME",
-              "value": "Northwind"
+              "value": ""
             },
             {
               "name": "DB_CERT_PATH",

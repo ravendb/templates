@@ -1,5 +1,3 @@
-namespace MyCompany.Functions;
-
 public record WelcomeData
 {
   public string functionName;

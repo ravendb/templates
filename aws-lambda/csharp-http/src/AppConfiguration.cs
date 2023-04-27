@@ -1,7 +1,5 @@
 using Raven.DependencyInjection;
 
-namespace MyCompany.Functions;
-
 public class AppConfiguration
 {
   public RavenExtendedSettings RavenSettings { get; set; }

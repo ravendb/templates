@@ -2,6 +2,7 @@ public record WelcomeData
 {
   public string functionName;
   public string invocationId;
+  public string region;
   public string version;
   public string url;
   public string database;

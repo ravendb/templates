@@ -233,10 +233,55 @@
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
       <defs>
-        <symbol id="icon-cloud" viewBox="0 0 32 32">
-          <path
-            d="M32 20.548c0-2.565-1.771-4.716-4.156-5.296-0.101-4.022-3.389-7.252-7.433-7.252-2.369 0-4.477 1.109-5.839 2.835-0.764-0.987-1.959-1.624-3.303-1.624-2.307 0-4.176 1.871-4.176 4.179 0 0.201 0.015 0.399 0.043 0.592-0.351-0.063-0.711-0.098-1.080-0.098-3.344-0-6.054 2.712-6.054 6.058s2.71 6.058 6.054 6.058l20.508-0c3.004-0.006 5.438-2.444 5.438-5.451z"
-          ></path>
+        <symbol id="icon-lambda" viewBox="0 0 79.375 79.375" version="1.1">
+          <defs />
+          <g transform="translate(-59.800182,-58.702892)">
+            <rect
+              style="
+                fill: #d86613;
+                fill-opacity: 1;
+                stroke: none;
+                stroke-width: 2.05;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-miterlimit: 4;
+                stroke-dasharray: none;
+                stop-color: #000000;
+              "
+              width="79.375"
+              height="79.375"
+              x="59.800182"
+              y="58.702892"
+            />
+            <path
+              style="
+                fill: none;
+                fill-opacity: 0.992157;
+                stroke: #ffffff;
+                stroke-width: 2.05;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-miterlimit: 4;
+                stroke-dasharray: none;
+                stop-color: #000000;
+              "
+              d="m 83.711974,73.081971 v 11.544412 h 8.138237 L 110.8242,123.71736 h 13.03032 v -11.47583 h -5.05211 L 99.80557,73.081971 Z"
+            />
+            <path
+              style="
+                fill: none;
+                fill-opacity: 1;
+                stroke: #ffffff;
+                stroke-width: 2.05;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-miterlimit: 4;
+                stroke-dasharray: none;
+                stop-color: #000000;
+              "
+              d="M 89.543079,93.570702 96.332218,107.55632 88.961152,123.62 H 75.350544 Z"
+            />
+          </g>
         </symbol>
         <symbol id="icon-database" viewBox="0 0 32 32">
           <path
@@ -405,25 +450,22 @@
             <div class="card-header">
               <div class="h5">
                 <i class="icon">
-                  <svg class="icon-cloud icon-addon-clip">
-                    <use xlink:href="#icon-cloud"></use>
-                  </svg>
-                  <svg class="icon-power icon-addon">
-                    <use xlink:href="#icon-power"></use>
+                  <svg class="icon-lambda">
+                    <use xlink:href="#icon-lambda"></use>
                   </svg>
                 </i>
-                <strong>Microsoft Azure</strong>
+                <strong>AWS Lambda</strong>
               </div>
 
               <div class="card-header-actions">
                 <a
                   class="btn btn-sm btn-secondary"
-                  href="https://portal.azure.com/#blade/HubsExtension/BrowseResourceBlade/resourceType/Microsoft.Web%2Fsites/kind/functionapp"
+                  href="https://{{region}}.console.aws.amazon.com/lambda/home#/functions/{{functionName}}?tab=code"
                 >
                   <svg class="icon icon-new-tab">
                     <use xlink:href="#icon-new-tab"></use>
                   </svg>
-                  Manage Function App
+                  Manage Lambda Function
                 </a>
               </div>
             </div>
@@ -433,6 +475,8 @@
                 <dd class="col-sm-8">{{functionName}}</dd>
                 <dt class="col-sm-4">Invocation ID</dt>
                 <dd class="col-sm-8">{{invocationId}}</dd>
+                <dt class="col-sm-4">Region</dt>
+                <dd class="col-sm-8">{{region}}</dd>
               </dl>
             </div>
           </div>
@@ -531,8 +575,6 @@
                 your RavenDB connection information.
               </p>
 
-              <h4>Windows or Linux</h4>
-
               <p>
                 Provide the path to your .pfx file (password-protected) and
                 upload.
@@ -547,35 +589,34 @@
   }
 }</code></pre>
 
-              <h4>Windows Only</h4>
+              <h3>In AWS</h3>
 
               <p>
-                Load the certificate from the
-                <code>CurrentUser\My</code> certificate store by its thumbprint.
+                Ensure your your client certificate (.pfx) is password-protected and
+                deployed alongside your app by updating your <code>.csproj</code> file:
               </p>
 
-              <pre><code>{
-  "RavenSettings": {
-    "Urls": ["http://live-test.ravendb.net"],
-    "DatabaseName": "Northwind",
-    "CertThumbprint": "&lt;cert_thumbprint&gt;"
-  }
-}</code></pre>
-
-              <h3>In Azure</h3>
+              <pre><code>&lt;ItemGroup&gt;
+  &lt;None Update="your.client.certificate.with.password.pfx"&gt;
+    &lt;CopyToOutputDirectory&gt;PreserveNewest&lt;/CopyToOutputDirectory&gt;
+    &lt;CopyToPublishDirectory&gt;PreserveNewest&lt;/CopyToPublishDirectory&gt;
+  &lt;/None&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
 
               <p>
-                Upload your client certificate (.pfx) to your Azure Function App
+                Ensure the environment variables are added to your AWS Lambda function in the Console:
               </p>
-              <p>
-                Copy the <code>Certificate Thumbprint</code>, then update your
-                <code>RavenSettings__CertThumbprint</code> app setting to
-                connect to your own cluster:
-              </p>
+
+<pre><code>RavenSettings__Urls__0=http://a.free.company.ravendb.cloud
+RavenSettings__DatabaseName=MyDatabase
+RavenSettings__CertFilePath=your.client.certificate.with.password.pfx
+RavenSettings__CertPassword=MYPASSWORD
+</code></pre>
 
               <p>
                 For a more detailed guide, see
-                <a href="#docs">Using Azure Functions with RavenDB</a>.
+                <a href="#docs">Using AWS Lambda with RavenDB</a>.
               </p>
             </div>
           </div>

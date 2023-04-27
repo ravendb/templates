@@ -22,14 +22,12 @@ public class WelcomeController : ControllerBase
   [HttpGet(Name = "GetWelcome")]
   public async Task<ActionResult> Get()
   {
-    var context = (ILambdaContext?)Request.HttpContext.Items[AbstractAspNetCoreFunction.LAMBDA_CONTEXT];
-  
     var welcomeData = new WelcomeData()
     {
       url = _session.Advanced.DocumentStore.Urls[0],
       database = _session.Advanced.DocumentStore.Database,
-      functionName = context?.FunctionName ?? "",
-      invocationId = context?.AwsRequestId ?? "",
+      functionName = Environment.GetEnvironmentVariable("AWS_LAMBDA_FUNCTION_NAME") ?? "",
+      invocationId = Environment.GetEnvironmentVariable("_X_AMZN_TRACE_ID") ?? "",
       region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "",
       connected = true,
     };

@@ -1,0 +1,37 @@
+name: deploy
+on:
+  push:
+  pull_request:
+  repository_dispatch:
+
+env:
+  AWS_LAMBDA_FUNCTION_NAME: ${{ vars.AWS_LAMBDA_FUNCTION_NAME }}
+  AWS_LAMBDA_FUNCTION_ROLE: ${{ vars.AWS_LAMBDA_FUNCTION_ROLE }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    steps:
+      - name: "Checkout GitHub action"
+        uses: actions/checkout@v2
+
+      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: "global.json"
+
+      - name: AWS CLI
+        run: dotnet tool install -g Amazon.Lambda.Tools
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Deploy to Lambda
+        working-directory: "src"
+        run: dotnet lambda deploy-function ${{ env.AWS_LAMBDA_FUNCTION_NAME}} --function-role ${{ env.AWS_LAMBDA_FUNCTION_ROLE }}

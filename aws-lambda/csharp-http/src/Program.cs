@@ -3,8 +3,8 @@ using Raven.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add configuration support that uses appsettings, environment variables, and AWS Secrets Manager
-builder.Configuration.AddSecretsManager();
+// Add configuration support for AWS Secrets Manager
+// builder.Configuration.AddSecretsManager();
 
 // Strongly-type app config.
 builder.Services.Configure<AppConfiguration>(builder.Configuration);

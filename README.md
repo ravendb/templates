@@ -22,8 +22,12 @@ If you don't want to use a deployment wizard or need to clone the templates loca
 You can use [degit](https://github.com/Rich-Harris/degit) to quickly scaffold a template:
 
 ```sh
-$ npx degit ravendb/templates/<template_dir> [new_repo_name]
-# for example:
+npx degit ravendb/templates/<template_dir> [new_repo_name]
+```
+
+For example:
+
+```sh
 $ npx degit ravendb/templates/azure-functions/node-http my-project
 $ cd my-project
 $ git init

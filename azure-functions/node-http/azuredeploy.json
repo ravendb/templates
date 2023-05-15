@@ -62,11 +62,7 @@
               "value": ""
             },
             {
-              "name": "DB_CERT_PATH",
-              "value": ""
-            },
-            {
-              "name": "DB_CERT_PASSWORD",
+              "name": "DB_CERT_PEM",
               "value": ""
             },
             {

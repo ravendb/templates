@@ -471,22 +471,30 @@ ${data.error.stack}</code></pre>
             </p>
 
             <p>
-              Provide the path to your .pfx file (password-protected) and
-              commit to source control.
+              Provide the relative or absolute path to your .pfx file (passwordless) that sits outside
+              your Git repository:
             </p>
 
             <pre><code>{
-  "DB_URLS": "http://live-test.ravendb.net",
-  "DB_NAME": "Northwind",
-  "DB_CERT_PATH": "path/to/cert.pfx"
-  "DB_CERT_PASSWORD": "&lt;your_password&gt;"
+  "DB_URLS": "https://a.free.mycompany.ravendb.cloud",
+  "DB_NAME": "demo",
+  "DB_CERT_PATH": "../certs/free.mycompany.client.certificate.pfx"
   }</code></pre>
 
-            <p>The <code>local.settings.json</code> file is not committed to source control. You can update the app settings in Azure.</p>
+            <p><strong>DO NOT</strong> store your <code>.pfx</code> files in source control.</p>
 
             <h3>In Azure</h3>
 
-            <p>In the Configuration section of your Azure Functions App, update the <code>DB_URLS</code>, <code>DB_NAME</code>, and other settings to match your production configuration.</p>
+            <p>In the Configuration section of your Azure Functions App, update the <code>DB_URLS</code> and <code>DB_NAME</code> to match your production configuration.</p>
+
+            <p>Then, define a <code>DB_CERT_PEM</code> configuration setting containing the full public/private key. You can copy/paste the contents of your <code>.pem</code> file which looks like:</p>
+
+            <pre><code>-----BEGIN CERTIFICATE-----
+MIIFCzCC...
+-----END CERTIFICATE-----
+-----BEGIN RSA PRIVATE KEY-----
+MIIJKAI...
+-----END RSA PRIVATE KEY-----</code></pre>
 
             <p>
               For a more detailed guide, see

@@ -20,9 +20,20 @@ interface InitializeOptions {
    */
   databaseName: string;
 
+  /**
+   * Relative or absolute path to .pfx file
+   */
   dbCertPath?: string;
 
+  /**
+   * Optional password for .pfx file
+   */
   dbCertPassword?: string;
+
+  /**
+   * The full PEM certificate contents (usually used in Azure).
+   */
+  dbCertPem?: string;
 
   /**
    * Customize DocumentConventions of store before initialization
@@ -35,6 +46,7 @@ export async function initializeDb({
   databaseName,
   dbCertPassword,
   dbCertPath,
+  dbCertPem,
   customize,
 }: InitializeOptions) {
   if (initialized) return;
@@ -42,7 +54,15 @@ export async function initializeDb({
   let authOptions: IAuthOptions = undefined;
 
   if (dbCertPath) {
-    authOptions = await getAuthOptions(dbCertPath, dbCertPassword);
+    authOptions = await getAuthOptionsFromCertificatePath(
+      dbCertPath,
+      dbCertPassword
+    );
+  } else if (dbCertPem) {
+    authOptions = {
+      certificate: dbCertPem,
+      type: "pem",
+    };
   }
 
   store = new DocumentStore(urls, databaseName, authOptions);
@@ -58,7 +78,7 @@ export async function initializeDb({
   return store;
 }
 
-async function getAuthOptions(
+async function getAuthOptionsFromCertificatePath(
   dbCertPath: string,
   dbCertPassword: string
 ): Promise<IAuthOptions | undefined> {

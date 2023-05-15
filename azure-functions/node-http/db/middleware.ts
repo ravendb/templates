@@ -8,7 +8,7 @@ export const createDbMiddleware =
     const isNewSetup = !process.env.DB_URLS || !process.env.DB_NAME;
     let dbStore: IDocumentStore;
 
-    console.log('URLs', process.env.DB_URLS);
+    console.log("URLs", process.env.DB_URLS);
 
     if (isNewSetup) {
       dbStore = initializeWelcomeDb();
@@ -18,6 +18,7 @@ export const createDbMiddleware =
         databaseName: process.env.DB_NAME,
         dbCertPath: process.env.DB_CERT_PATH,
         dbCertPassword: process.env.DB_CERT_PASSWORD,
+        dbCertPem: process.env.DB_CERT_PEM,
         customize,
       });
     }

@@ -1,16 +1,39 @@
-# RavenDB Templates
+ # RavenDB Templates
+ [RavenDB][cloud-signup] is a NoSQL document database for distributed applications offering industry-leading security without compromising performance. With a RavenDB database you can set up a NoSQL data architecture or add a NoSQL layer to your current relational database.
 
-Get started quickly with [RavenDB](https://ravendb.net/docs) using different framework and service integrations.
+> The easiest way to get started with RavenDB is by creating [a free RavenDB Cloud account][cloud-signup] or requesting a free license to [download it yourself][download].
+>
+> If you are _brand new_ to RavenDB, we recommend starting with the [Getting Started guide][docs-get-started], the [RavenDB bootcamp][learn-bootcamp], or the [Try RavenDB][learn-demo] experience.
+
+Get started quickly with RavenDB using different framework and service integrations.
 
 | Template | Deploy | Clone Template Command |
 | -------- | ------ | ---------------------- |
-| [AWS Lambda .NET (C#)](aws-lambda/csharp-http) |  | <details><summary>Clone Command (Bash):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter aws-lambda/csharp-http; rm -rf .git; git init`</details> <details><summary>Clone Command (Powershell):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter aws-lambda/csharp-http; rm -r -force .git; git init`</details>|
-| [Azure Functions .NET (C#)](azure-functions/csharp-http) | [![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fravendb%2Ftemplates%2Fmain%2Fazure-functions%2Fcsharp-http%2Fazuredeploy.json) | <details><summary>Clone Command (Bash):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter azure-functions/csharp-http; rm -rf .git; git init`</details> <details><summary>Clone Command (Powershell):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter azure-functions/csharp-http; rm -r -force .git; git init`</details>|
-| [Azure Functions Node.js (TypeScript)](azure-functions/node-http) | [![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fravendb%2Ftemplates%2Fmain%2Fazure-functions%2Fnode-http%2Fazuredeploy.json) | <details><summary>Clone Command (Bash):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter azure-functions/node-http; rm -rf .git; git init`</details> <details><summary>Clone Command (Powershell):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter azure-functions/node-http; rm -r -force .git; git init`</details>|
+| [AWS Lambda .NET (C#)](aws-lambda/csharp-http) |  | <details><summary>Clone Command (npx):</summary> `npx degit ravendb/templates/aws-lambda/csharp-http my-project; cd my-project; git init`</details> <details><summary>Clone Command (Bash):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter aws-lambda/csharp-http; rm -rf .git; git init`</details> <details><summary>Clone Command (Powershell):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter aws-lambda/csharp-http; rm -r -force .git; git init`</details>|
+| [Azure Functions .NET (C#)](azure-functions/csharp-http) | [![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fravendb%2Ftemplates%2Fmain%2Fazure-functions%2Fcsharp-http%2Fazuredeploy.json) | <details><summary>Clone Command (npx):</summary> `npx degit ravendb/templates/azure-functions/csharp-http my-project; cd my-project; git init`</details> <details><summary>Clone Command (Bash):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter azure-functions/csharp-http; rm -rf .git; git init`</details> <details><summary>Clone Command (Powershell):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter azure-functions/csharp-http; rm -r -force .git; git init`</details>|
+| [Azure Functions Node.js (TypeScript)](azure-functions/node-http) | [![Deploy to Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fravendb%2Ftemplates%2Fmain%2Fazure-functions%2Fnode-http%2Fazuredeploy.json) | <details><summary>Clone Command (npx):</summary> `npx degit ravendb/templates/azure-functions/node-http my-project; cd my-project; git init`</details> <details><summary>Clone Command (Bash):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter azure-functions/node-http; rm -rf .git; git init`</details> <details><summary>Clone Command (Powershell):</summary> `git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter azure-functions/node-http; rm -r -force .git; git init`</details>|
 
 ## Cloning the Templates
 
-Git makes it hard to easily clone a subfolder of a repository but there are 3 main steps:
+If you don't want to use a deployment wizard or need to clone the templates locally, here are two ways:
+
+### If you have Node.js and `npx` installed:
+
+You can use [degit](https://github.com/Rich-Harris/degit) to quickly scaffold a template:
+
+```sh
+$ npx degit ravendb/templates/<template_dir> [new_repo_name]
+# for example:
+$ npx degit ravendb/templates/azure-functions/node-http my-project
+$ cd my-project
+$ git init
+```
+
+If the project directory is omitted, the template will be cloned in the current directory.
+
+### Manually using git
+
+This is more involved but has 3 steps:
 
 1. Clone the repository into a new folder
 1. Filter the subtree to only the subdirectory of the template
@@ -26,3 +49,9 @@ $ git init
 ```
 
 Above in the table there is a clone command box you can copy from and paste directly into the terminal that concatenates these into one command sequence.
+
+[cloud-signup]: https://cloud.ravendb.net?utm_source=github&utm_medium=web&utm_campaign=github_templates&utm_content=cloud_signup
+[download]: https://ravendb.net/download?utm_source=github&utm_medium=web&utm_campaign=github_templates&utm_content=download
+[docs-get-started]: https://ravendb.net/docs/article-page/csharp/start/getting-started?utm_source=github&utm_medium=web&utm_campaign=github_templates&utm_content=docs_get_started
+[learn-bootcamp]: https://ravendb.net/learn/bootcamp?utm_source=github&utm_medium=web&utm_campaign=github_templates&utm_content=learn_bootcamp
+[learn-demo]: https://demo.ravendb.net/?utm_source=github&utm_medium=web&utm_campaign=github_templates&utm_content=learn_demo

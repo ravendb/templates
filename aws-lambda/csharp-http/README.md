@@ -36,21 +36,41 @@ To create a `my-project` directory using this template, run one of the following
   ```
 </details>
 
-For more, see [Cloning the Templates](../../README.md#cloning-the-templates)
+For more, see [Cloning the Templates](../../README.md#cloning-the-templates).
 
-To start the Azure Function:
+You will need to have your AWS environment set up. The easiest method is to use the AWS Toolkit extension for Visual Studio or Visual Studio Code. You can use it to sign in and set up your `~/.aws/credentials` file. You will also need to define a `AWS_REGION` environment variable in your shell profile or environment.
+
+To run the Lambda function locally:
 
 ```sh
-$ dotnet restore
-$ func start
+cd src
+dotnet restore
+dotnet run
 ```
 
+> NOTE: This does not use any simulated Lambda runtime. You may want to use the AWS .NET Mock Lambda tool to test anything Lambda-specific.
 
-## Deploy to Azure
+## Deploy to AWS Lambda
 
-Click the "Deploy to Azure" button above to deploy the ARM template for this repository.
+### Manually
 
-You can also [manually create an Azure Functions app][az-func-deploy].
+You can deploy your function manually through the AWS Lambda .NET Tools:
+
+```sh
+dotnet lambda deploy-function <csproj>
+```
+
+Running this for the first time will walk you through setting up your IAM function role.
+
+### Automatically Using CI/CD
+
+The template is configured to deploy automatically through GitHub Actions workflows for CI/CD. You will need the following secrets and variables:
+
+- **Secret:** `AWS_ACCESS_KEY_ID` -- Your IAM deployment user Access Key ID
+- **Secret:** `AWS_ACCESS_KEY_SECRET` -- Your IAM deployment user Access Key Secret (password-equivalent)
+- **Variable:** `AWS_REGION` -- The AWS region to deploy to (e.g. `us-east-1`)
+- **Variable:** `AWS_LAMBDA_FUNCTION_NAME` -- The AWS Lambda function name, typically the name of the `.csproj` file (e.g. `RavenDBLambda`)
+- **Variable:** `AWS_LAMBDA_FUNCTION_ROLE` -- The IAM role assigned to your AWS Lambda function, created on initial deployment or manually
 
 ## Configuring the Template
 

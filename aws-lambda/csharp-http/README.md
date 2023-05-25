@@ -92,22 +92,30 @@ Update the `appsettings.json` or `appsettings.development.json` files:
 }
 ```
 
-### Certificate Path (Windows / Linux)
+#### Using a PFX/X509 Certificate locally
+
+Use the `CertFilePath` to use a PFX file locally, **stored outside the repository.**
 
 The path to the certificate can be relative to the `.csproj` file or an absolute file path.
 
-### Storing the `CertPassword` secret
+> ❗ Avoid storing PFX files in your repository and deploying them. Use the contents of your PEM file instead, see below.
 
-To store `RavenSettings:CertPassword`, you can use User Secrets locally and AWS Lambda when deployed.
+#### Using a PEM Certificate
 
-```bash
-dotnet user-secrets init
-dotnet user-secrets set RavenSettings:CertPassword "<PASSWORD>"
+Instead of uploading a PFX file, in your AWS Lambda function, you will need to define a `RavenSettings__CertPem` environment variable. This will contain BOTH your public and private key in plaintext.
+
+You can copy/paste the contents of your `.pem` file, which will look like this:
+
+```
+-----BEGIN CERTIFICATE-----
+MIIFCzCC...
+-----END CERTIFICATE-----
+-----BEGIN RSA PRIVATE KEY-----
+MIIJKAI...
+-----END RSA PRIVATE KEY-----
 ```
 
-In the AWS Lambda environment variables settings, add a `RavenSettings__CertPassword` variable.
-
-> You do not need to "encrypt-in-transit." This requires a custom configuration provider. Instead, use AWS Secrets Manager.
+The template will handle this for you and pass it to the `DocumentStore`.
 
 ### Using AWS Secrets Manager
 

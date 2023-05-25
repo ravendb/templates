@@ -8,8 +8,14 @@ public class AppConfiguration
 public class RavenExtendedSettings : RavenSettings
 {
   /// <summary>
-  /// Certificate bytes as UTF8-encoded string
+  /// Certificate bytes (.pfx) as UTF8-encoded string.
   /// </summary>
   /// <value></value>
   public string CertBytes { get; set; }
+
+  /// <summary>
+  /// Certificate PEM with public/private key in plain-text
+  /// </summary>
+  /// <value></value>
+  public string CertPem { get; set; }
 }

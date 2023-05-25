@@ -24,6 +24,13 @@ builder.Services.AddRavenDbDocStore(options =>
 
         options.Certificate = cert;
       }
+
+      var certPem = appConfig.RavenSettings.CertPem;
+
+      if (certPem != null)
+      {
+        options.Certificate = X509Certificate2.CreateFromPem(certPem);
+      }
     });
 
 builder.Services.AddControllers();

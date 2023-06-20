@@ -31,9 +31,10 @@ To create a `my-project` directory using this template, run one of the following
 <details>
   <summary>Clone Command (Powershell):</summary>
 
-  ```sh
-  git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter aws-lambda/csharp-http; rm -r -force .git; git init
-  ```
+```sh
+git clone https://github.com/ravendb/templates my-project; cd my-project; git filter-branch --subdirectory-filter aws-lambda/csharp-http; rm -r -force .git; git init
+```
+
 </details>
 
 For more, see [Cloning the Templates](../../README.md#cloning-the-templates).
@@ -86,8 +87,7 @@ Update the `appsettings.json` or `appsettings.development.json` files:
 {
   "RavenSettings": {
     "Urls": ["http://live-test.ravendb.net"],
-    "DatabaseName": "Northwind",
-    "CertFilePath": "path/to/cert.pfx"
+    "DatabaseName": "Northwind"
   }
 }
 ```
@@ -102,18 +102,47 @@ The path to the certificate can be relative to the `.csproj` file or an absolute
 
 #### Using a PEM Certificate
 
-Instead of uploading a PFX file, in your AWS Lambda function, you will need to define a `RavenSettings__CertPem` environment variable. This will contain BOTH your public and private key in plaintext.
+Instead of uploading a PFX file, in your AWS Lambda function, you will need to use the `RavenSettings:CertPublicKeyFilePath` setting and define a `RavenSettings__CertPrivateKey` environment variable. AWS limits environment variables to less than 5KB so to avoid incurring the extra cost of AWS Secrets Manager, you can use a public key committed to source control (safe) with a base64-encoded private key.
 
-You can copy/paste the contents of your `.pem` file, which will look like this:
+You can specify the `CertPublicKeyFilePath` as an app setting or environment variable (`RavenSettings__CertPublicKeyFilePath`):
+
+```json
+{
+  "RavenSettings": {
+    "Urls": ["https://a.free.mycompany.ravendb.cloud"],
+    "DatabaseName": "Northwind",
+    "CertPublicKeyFilePath": "free.mycompany.client.certificate.crt"
+  }
+}
+```
+
+The path should be relative to your `.csproj` file. The contents of your `.crt` file will look like this:
 
 ```
 -----BEGIN CERTIFICATE-----
 MIIFCzCC...
 -----END CERTIFICATE-----
+```
+
+`.crt` files are automatically copied to your output and publish directories on build.
+
+Then, you need to [base64 encode](https://www.base64encode.org/) the contents of your `.key` file, which will look like this:
+
+```
 -----BEGIN RSA PRIVATE KEY-----
 MIIJKAI...
 -----END RSA PRIVATE KEY-----
+
+=> LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlKS0FJLi4uCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0t
 ```
+
+Use the encoded value for `CertPrivateKey`. Pass this in as an environment variable in AWS, like:
+
+```
+RavenSettings__CertPrivateKey=<encoded private key>
+```
+
+> ❗ Don't commit the private key to source control as an app setting. Base64 encoding is not encryption.
 
 The template will handle this for you and pass it to the `DocumentStore`.
 
@@ -131,20 +160,26 @@ To enable loading configuration from AWS Secrets Manager, in `Program.cs`, uncom
 
 To store and load configuration, create a secret key corresponding to the app setting. For example, here is `RavenSettings` stored as a JSON object:
 
-TBD
+```json
+{
+  "RavenSettings": {
+    "Urls": ["https://a.free.mycompany.ravendb.cloud"],
+    "DatabaseName": "Northwind",
+    "CertPublicKeyFilePath": "free.mycompany.client.certificate.crt",
+    "CertPrivateKey": "<base64 encoded private key>"
+  }
+}
+```
 
-Settings will be merged last, meaning you can use it to override specific settings versus loading everything.
-
-Your certificate (.pfx) can be stored as a binary object under the `RavenSettings:CertBytes` setting and will be loaded by the template.
-
-To upload the certificate, use the `aws` CLI:
+For more, read the guide on [setting up AWS Secrets Manager with RavenDB][docs-aws-secrets].
 
 [cloud-signup]: https://cloud.ravendb.net?utm_source=github&utm_medium=web&utm_campaign=github_template_aws_lambda_csharp_http&utm_content=cloud_signup
 [download]: https://ravendb.net/download?utm_source=github&utm_medium=web&utm_campaign=github_template_aws_lambda_csharp_http&utm_content=download
 [docs-get-started]: https://ravendb.net/docs/article-page/csharp/start/getting-started?utm_source=github&utm_medium=web&utm_campaign=github_template_aws_lambda_csharp_http&utm_content=docs_get_started
 [learn-bootcamp]: https://ravendb.net/learn/bootcamp?utm_source=github&utm_medium=web&utm_campaign=github_template_aws_lambda_csharp_http&utm_content=learn_bootcamp
 [learn-demo]: https://demo.ravendb.net/?utm_source=github&utm_medium=web&utm_campaign=github_template_aws_lambda_csharp_http&utm_content=learn_demo
-[docs-howto]: https://ravendb.net/docs/article/csharp/start/platform-guides/aws-lambda/overview?utm_source=github&utm_medium=web&utm_campaign=github_template_aws_lambda_csharp_http&utm_content=docs_howto
+[docs-howto]: https://ravendb.net/docs/article/csharp/start/guides/aws-lambda/overview?utm_source=github&utm_medium=web&utm_campaign=github_template_aws_lambda_csharp_http&utm_content=docs_howto
+[docs-howto-secrets]: https://ravendb.net/docs/article/csharp/start/guides/aws-lambda/secrets-manager?utm_source=github&utm_medium=web&utm_campaign=github_template_aws_lambda_csharp_http&utm_content=docs_howto_secrets
 [nuget-ravendb-di]: https://www.nuget.org/packages/RavenDB.DependencyInjection
 [aws-secrets]: https://aws.amazon.com/secrets-manager/
 [aws-secrets-nuget]: https://www.nuget.org/packages/Kralizek.Extensions.Configuration.AWSSecretsManager

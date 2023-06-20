@@ -43,6 +43,7 @@ public class WelcomeController : ControllerBase
     {
       welcomeData.connected = false;
       welcomeData.error = ex;
+      Console.WriteLine(ex);
     }
 
     var content = await WelcomeTemplate.RenderHtmlAsync(welcomeData);

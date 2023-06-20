@@ -47,6 +47,7 @@
       b {
         font-weight: bolder;
         font-weight: 600;
+        color: var(--text-emphasis);
       }
       .background {
         position: fixed;
@@ -550,8 +551,7 @@
                 There was a problem establishing a connection to RavenDB. See
                 below:
               </p>
-              <pre><code>
-{{error.StackTrace}}</code></pre>
+              <p><pre><code>{{error.message}}</code></pre></p>
               <p>
                 To get help, see
                 <a href="#troubleshooting">Troubleshooting Guide</a>.
@@ -574,49 +574,55 @@
                 Update your <code>appsettings.json</code> configuration with
                 your RavenDB connection information.
               </p>
-
+              
               <p>
-                Provide the path to your .pfx file (password-protected) and
-                upload.
+                Provide the path to your .pfx file (with or without a password). <strong>It's recommended not to commit PFX files to source control or deploy them, so the file may be stored outside your repository.</strong>
               </p>
 
               <pre><code>{
   "RavenSettings": {
-    "Urls": ["http://live-test.ravendb.net"],
+    "Urls": ["https://a.free.mycompany.ravendb.cloud"],
     "DatabaseName": "Northwind",
-    "CertFilePath": "path/to/cert.pfx"
-    "CertFilePassword": "&lt;your_password&gt;"
+    "CertFilePath": "../certs/free.mycompany.client.certificate.pfx"
   }
 }</code></pre>
 
+              <p>If using a password-protected PFX, specify the <code>RavenSettings:CertPassword</code> setting as a .NET user secret:</p>
+
+              <pre><code>dotnet user-secrets init
+dotnet user-secrets set "RavenSettings:CertPassword" "&lt;CERT_PASSWORD&gt;"</code></pre>              
+
               <h3>In AWS</h3>
 
+              <p>AWS limits the size of environment variables to under 5KB. A full private/public keypair is typically beyond 5KB in size. To support passing certificate information without deploying a .pfx file or using AWS Secrets Manager, you can use the <code>CertPublicKeyFilePath</code> and <code>CertPrivateKey</code> settings to pass a PEM-encoded public and private key (in .crt and .key files provided by RavenDB):</p>
+
+              <pre><code>{
+  "RavenSettings": {
+    "Urls": ["https://a.free.mycompany.ravendb.cloud"],
+    "DatabaseName": "Northwind",
+    "CertPublicKeyFilePath": "free.mycompany.client.certificate.crt",
+    "CertPrivateKey": "&lt;base64 encoded private key&gt;"
+  }
+}</code></pre>
+
+              <p>The public key certificate (.crt file) is safe to commit to source control and deploy, so it should be relative to the <code>.csproj</code> directory and copied to the output/publish directories:</p>
+
               <p>
-                Ensure your your client certificate (.pfx) is password-protected and
-                deployed alongside your app by updating your <code>.csproj</code> file:
+                Instead of providing the private key in <code>appsettings.json</code> where it will be committed to source control, it's recommended to pass it as an environment variable which can be added to your AWS Lambda
+                function in the Console:
               </p>
 
-              <pre><code>&lt;ItemGroup&gt;
-  &lt;None Update="your.client.certificate.with.password.pfx"&gt;
-    &lt;CopyToOutputDirectory&gt;PreserveNewest&lt;/CopyToOutputDirectory&gt;
-    &lt;CopyToPublishDirectory&gt;PreserveNewest&lt;/CopyToPublishDirectory&gt;
-  &lt;/None&gt;
-&lt;/ItemGroup&gt;
-</code></pre>
-
-              <p>
-                Ensure the environment variables are added to your AWS Lambda function in the Console:
-              </p>
-
-<pre><code>RavenSettings__Urls__0=http://a.free.company.ravendb.cloud
+              <pre><code>RavenSettings__Urls__0=http://a.free.company.ravendb.cloud
 RavenSettings__DatabaseName=MyDatabase
-RavenSettings__CertFilePath=your.client.certificate.with.password.pfx
-RavenSettings__CertPassword=MYPASSWORD
+RavenSettings__CertPublicKeyFilePath=your.client.certificate.with.password.pfx
+RavenSettings__CertPrivateKey=&lt;base64 encoded private key&gt;
 </code></pre>
 
+              <p>The private key contents will need to be <a href="https://www.base64encode.org/">base64-encoded</a> which the template automatically supports.</p>
+
               <p>
-                For a more detailed guide, see
-                <a href="#docs">Using AWS Lambda with RavenDB</a>.
+                For a more robust solution, you may wish to use AWS Secrets Manager to manage certificates and configuration. For a more detailed guide, see
+                <a href="https://ravendb.net/docs/article-page/latest/csharp/start/guides/aws-lambda/overview">Using AWS Lambda with RavenDB</a>.
               </p>
             </div>
           </div>

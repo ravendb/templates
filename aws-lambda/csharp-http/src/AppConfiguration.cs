@@ -13,9 +13,15 @@ public class RavenExtendedSettings : RavenSettings
   /// <value></value>
   public string CertBytes { get; set; }
 
-  /// <summary>
-  /// Certificate PEM with public/private key in plain-text
+/// <summary>
+  /// Certificate public key in plain-text. Used in conjunction with CertPrivateKey.
   /// </summary>
   /// <value></value>
-  public string CertPem { get; set; }
+  public string CertPublicKeyFilePath { get; set; }
+
+  /// <summary>
+  /// Certificate private key base64-encoded. Used in conjunction with CertPublicKeyFilePath.
+  /// </summary>
+  /// <value></value>
+  public string CertPrivateKey { get; set; }
 }

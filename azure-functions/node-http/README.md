@@ -4,28 +4,29 @@
 
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fravendb%2Ftemplate-azure-functions-typescript%2Fmaster%2Fazuredeploy.json)
 
-A batteries included template for kick starting a Node.js TypeScript Azure Functions project that connects with a RavenDB Cloud database backend.
+A batteries included template for kick starting a Node.js TypeScript Azure Functions project that connects with a RavenDB database backend.
 
-[RavenDB][cloud-signup] is a business continuity database for distributed applications offering industry-leading security with sub-100ms query performance.
+[RavenDB][cloud-signup] is a NoSQL document database for distributed applications offering industry-leading security without compromising performance. With a RavenDB database you can set up a NoSQL data architecture or add a NoSQL layer to your current relational database.
 
-> The easiest way to get started with RavenDB is by creating [a free RavenDB Cloud account](cloud-signup).
+> The easiest way to get started with RavenDB is by creating [a free RavenDB Cloud account][cloud-signup] or requesting a free license to [download it yourself][download].
 >
-> If you are _brand new_ to RavenDB, we recommend starting with the [Getting Started guide](docs-get-started), the [RavenDB bootcamp](learn-bootcamp), or the [Try RavenDB](learn-demo) experience.
+> If you are _brand new_ to RavenDB, we recommend starting with the [Getting Started guide][docs-get-started], the [RavenDB bootcamp][learn-bootcamp], or the [Try RavenDB][learn-demo] experience.
 
 ## Use the Template
 
 To create a `my-project` directory using this template, run:
 
 ```sh
-$ git clone https://github.com/ravendb/template-azure-functions-typescript my-project
-$ cd my-project
-$ func start
+npx degit ravendb/templates/azure-functions/node-http my-project
+cd my-project
+git init
 ```
 
 To start the Azure Function:
 
 ```sh
-$ func start
+npm install
+func start
 ```
 
 ## Deploy to Azure
@@ -87,6 +88,7 @@ The template will handle this for you and pass it to the `DocumentStore`.
 Optionally you could store the certificate in Azure Key Vault, retrieve the bytes, and pass the buffer to the DocumentStore. This incurs extra cost both in terms of storage and network latency.
 
 [cloud-signup]: https://cloud.ravendb.net?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=cloud_signup
+[download]: https://ravendb.net/download?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=download
 [docs-get-started]: https://ravendb.net/docs/article-page/nodejs/start/getting-started?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=docs_get_started
 [docs-create-db]: https://ravendb.net/docs/article-page/csharp/studio/database/create-new-database/general-flow?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=docs_new_db
 [learn-bootcamp]: https://ravendb.net/learn/bootcamp?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=learn_bootcamp

@@ -3,8 +3,8 @@
   "Values": {
     "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "node",
-    "DB_URLS": "https://a.free.tutorials.ravendb.cloud",
-    "DB_NAME": "demo",
+    "DB_URLS": "http://live-test.ravendb.net",
+    "DB_NAME": "(not set)",
     "DB_CERT_PATH": ""
   }
 }

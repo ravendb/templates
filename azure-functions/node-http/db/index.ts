@@ -1,4 +1,5 @@
 import { readFile } from "fs/promises";
+import { EOL } from "os";
 import type {
   DocumentConventions,
   IAuthOptions,
@@ -59,10 +60,7 @@ export async function initializeDb({
       dbCertPassword
     );
   } else if (dbCertPem) {
-    authOptions = {
-      certificate: dbCertPem,
-      type: "pem",
-    };
+    authOptions = getAuthOptionsFromCertPem(dbCertPem);
   }
 
   store = new DocumentStore(urls, databaseName, authOptions);
@@ -86,6 +84,31 @@ async function getAuthOptionsFromCertificatePath(
     certificate: await readFile(dbCertPath),
     password: dbCertPassword,
     type: "pfx",
+  };
+}
+
+const PEM_REGEX =
+  /-----BEGIN ([A-Z\s]+)-----(\s?[A-Za-z0-9+\/=\s]+?\s?)-----END \1-----/gm;
+
+function normalizePEM(pem: string): string {
+  return pem.replace(PEM_REGEX, (match, p1, p2) => {
+    const base64 = p2.replace(/\s/g, EOL);
+    return `-----BEGIN ${p1}-----${EOL}${base64.trim()}${EOL}-----END ${p1}-----${EOL}`;
+  });
+}
+
+function getAuthOptionsFromCertPem(dbCertPem: string): IAuthOptions {
+  let certificate = dbCertPem;
+  const isMissingLineEndings = !dbCertPem.includes(EOL);
+
+  if (isMissingLineEndings) {
+    // Typically when pasting values into Azure env vars
+    certificate = normalizePEM(certificate);
+  }
+
+  return {
+    certificate,
+    type: "pem",
   };
 }
 

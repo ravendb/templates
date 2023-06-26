@@ -39,7 +39,6 @@ You can also [manually create an Azure Functions app][az-func-deploy].
 
 Watch the video walkthrough tutorial or read through [the step-by-step guide in the RavenDB docs][docs-howto] that covers how to get up and running successfully with this template.
 
-
 ### RavenDB Settings
 
 The template uses environment variables to store connection information to RavenDB.
@@ -54,9 +53,11 @@ Update the `local.settings.json` file:
 }
 ```
 
-* `DB_URLS` contains a comma-separated list of cluster node URLs to connect to.
-* `DB_NAME` is the database name to connect to.
-* `DB_CERT_PATH` is the path to the certificate, relative to the `.csproj` file or an absolute file path.
+- `DB_URLS` contains a comma-separated list of cluster node URLs to connect to.
+- `DB_NAME` is the database name to connect to.
+- `DB_CERT_PATH` is the path to the certificate, relative to the `.csproj` file or an absolute file path.
+- `DB_CERT_PASSWORD` (optional) password for the PFX certificate. **Do not store in source control.**
+- `DB_CERT_PEM` PEM-encoded certificate, mainly for use on Azure (see below).
 
 ### Loading certificates
 
@@ -81,7 +82,7 @@ MIIJKAI...
 -----END RSA PRIVATE KEY-----
 ```
 
-The template will handle this for you and pass it to the `DocumentStore`.
+The Azure Portal will remove any line breaks. The template will handle this for you and pass it to the `DocumentStore`.
 
 #### Using Azure Key Vault
 
@@ -93,5 +94,5 @@ Optionally you could store the certificate in Azure Key Vault, retrieve the byte
 [docs-create-db]: https://ravendb.net/docs/article-page/csharp/studio/database/create-new-database/general-flow?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=docs_new_db
 [learn-bootcamp]: https://ravendb.net/learn/bootcamp?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=learn_bootcamp
 [learn-demo]: https://demo.ravendb.net/?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=learn_demo
-[docs-howto]: https://ravendb.net/docs/article/nodejs/start/platform-guides/azure-functions/overview?utm_source=github&utm_medium=web&utm_campaign=github_template_cloudflare_worker&utm_content=docs_howto
+[docs-howto]: https://ravendb.net/docs/article/nodejs/start/guides/azure-functions/overview?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_typescript&utm_content=docs_howto
 [az-func-deploy]: https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-csharp?tabs=in-process#deploy-the-project-to-azure

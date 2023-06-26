@@ -109,6 +109,6 @@ Optionally you could store the certificate in Azure Key Vault, retrieve the byte
 [docs-create-db]: https://ravendb.net/docs/article-page/csharp/studio/database/create-new-database/general-flow?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_csharp&utm_content=docs_new_db
 [learn-bootcamp]: https://ravendb.net/learn/bootcamp?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_csharp&utm_content=learn_bootcamp
 [learn-demo]: https://demo.ravendb.net/?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_csharp&utm_content=learn_demo
-[docs-howto]: https://ravendb.net/docs/article/csharp/start/platform-guides/azure-functions/overview?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_csharp&utm_content=docs_howto
+[docs-howto]: https://ravendb.net/docs/article/csharp/start/guides/azure-functions/overview?utm_source=github&utm_medium=web&utm_campaign=github_template_az_func_csharp&utm_content=docs_howto
 [nuget-ravendb-di]: https://www.nuget.org/packages/RavenDB.DependencyInjection 
 [az-func-deploy]: https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-csharp?tabs=in-process#deploy-the-project-to-azure

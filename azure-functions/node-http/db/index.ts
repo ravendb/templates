@@ -90,13 +90,6 @@ async function getAuthOptionsFromCertificatePath(
 const PEM_REGEX =
   /-----BEGIN ([A-Z\s]+)-----(\s?[A-Za-z0-9+\/=\s]+?\s?)-----END \1-----/gm;
 
-function normalizePEM(pem: string): string {
-  return pem.replace(PEM_REGEX, (match, p1, p2) => {
-    const base64 = p2.replace(/\s/g, EOL);
-    return `-----BEGIN ${p1}-----${EOL}${base64.trim()}${EOL}-----END ${p1}-----${EOL}`;
-  });
-}
-
 function getAuthOptionsFromCertPem(dbCertPem: string): IAuthOptions {
   let certificate = dbCertPem;
   const isMissingLineEndings = !dbCertPem.includes(EOL);
@@ -110,6 +103,13 @@ function getAuthOptionsFromCertPem(dbCertPem: string): IAuthOptions {
     certificate,
     type: "pem",
   };
+}
+
+function normalizePEM(pem: string): string {
+  return pem.replace(PEM_REGEX, (match, p1, p2) => {
+    const base64 = p2.replace(/\s/g, EOL);
+    return `-----BEGIN ${p1}-----${EOL}${base64.trim()}${EOL}-----END ${p1}-----${EOL}`;
+  });
 }
 
 export function openDbSession(opts?: SessionOptions) {

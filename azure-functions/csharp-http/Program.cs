@@ -1,10 +1,9 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Raven.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Raven.DependencyInjection;
 
 [assembly: FunctionsStartup(typeof(Company.FunctionApp.Startup))]
 

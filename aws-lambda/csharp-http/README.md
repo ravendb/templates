@@ -126,20 +126,18 @@ MIIFCzCC...
 
 `.crt` files are automatically copied to your output and publish directories on build.
 
-Then, you need to [base64 encode](https://www.base64encode.org/) the contents of your `.key` file, which will look like this:
+Then, you need to provide the contents of your `.key` file without line breaks, which will look like this:
 
 ```
------BEGIN RSA PRIVATE KEY-----
-MIIJKAI...
------END RSA PRIVATE KEY-----
-
-=> LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlKS0FJLi4uCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0t
+-----BEGIN RSA PRIVATE KEY----- MIIJKAI... -----END RSA PRIVATE KEY-----
 ```
 
-Use the encoded value for `CertPrivateKey`. Pass this in as an environment variable in AWS, like:
+When pasting the contents into the AWS Console, it will automatically remove line breaks. If providing in JSON, you will need to [stringify the contents](https://onlinestringtools.com/json-stringify-string).
+
+Pass this in as an environment variable in AWS, like:
 
 ```
-RavenSettings__CertPrivateKey=<encoded private key>
+RavenSettings__CertPrivateKey=<private key>
 ```
 
 > ❗ Don't commit the private key to source control as an app setting. Base64 encoding is not encryption.
@@ -166,10 +164,12 @@ To store and load configuration, create a secret key corresponding to the app se
     "Urls": ["https://a.free.mycompany.ravendb.cloud"],
     "DatabaseName": "Northwind",
     "CertPublicKeyFilePath": "free.mycompany.client.certificate.crt",
-    "CertPrivateKey": "<base64 encoded private key>"
+    "CertPrivateKey": "<private key>"
   }
 }
 ```
+
+The private key will need to have line breaks removed (using only spaces) or be [stringified](https://onlinestringtools.com/json-stringify-string).
 
 For more, read the guide on [setting up AWS Secrets Manager with RavenDB][docs-aws-secrets].
 

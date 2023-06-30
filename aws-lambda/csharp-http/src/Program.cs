@@ -26,20 +26,16 @@ builder.Services.AddRavenDbDocStore(options =>
         options.Certificate = cert;
       }
 
-      var certPrivateKeyEncoded = appConfig.RavenSettings.CertPrivateKey;
+      var certPrivateKey = appConfig.RavenSettings.CertPrivateKey;
       var certPublicKeyFilePath = appConfig.RavenSettings.CertPublicKeyFilePath;
-      var usePemCert = certPrivateKeyEncoded != null && certPublicKeyFilePath != null;
+      var usePemCert = certPrivateKey != null && certPublicKeyFilePath != null;
 
       if (usePemCert)
       {
-        var keyPem =
-          System.Text.Encoding.UTF8.GetString(
-            System.Convert.FromBase64String(certPrivateKeyEncoded)
-          );
         var certPem = File.ReadAllText(certPublicKeyFilePath);
         // Workaround ephemeral keys in Windows
         // See: https://github.com/dotnet/runtime/issues/66283
-        var intermediateCert = X509Certificate2.CreateFromPem(certPem, keyPem);
+        var intermediateCert = X509Certificate2.CreateFromPem(certPem, certPrivateKey);
         var cert = new X509Certificate2(intermediateCert.Export(X509ContentType.Pfx));
         intermediateCert.Dispose();
 

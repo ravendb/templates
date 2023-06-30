@@ -601,7 +601,7 @@ dotnet user-secrets set "RavenSettings:CertPassword" "&lt;CERT_PASSWORD&gt;"</co
     "Urls": ["https://a.free.mycompany.ravendb.cloud"],
     "DatabaseName": "Northwind",
     "CertPublicKeyFilePath": "free.mycompany.client.certificate.crt",
-    "CertPrivateKey": "&lt;base64 encoded private key&gt;"
+    "CertPrivateKey": "&lt;cert private key&gt;"
   }
 }</code></pre>
 
@@ -615,10 +615,10 @@ dotnet user-secrets set "RavenSettings:CertPassword" "&lt;CERT_PASSWORD&gt;"</co
               <pre><code>RavenSettings__Urls__0=http://a.free.company.ravendb.cloud
 RavenSettings__DatabaseName=MyDatabase
 RavenSettings__CertPublicKeyFilePath=your.client.certificate.with.password.pfx
-RavenSettings__CertPrivateKey=&lt;base64 encoded private key&gt;
+RavenSettings__CertPrivateKey=&lt;cert private key&gt;
 </code></pre>
 
-              <p>The private key contents will need to be <a href="https://www.base64encode.org/">base64-encoded</a> which the template automatically supports.</p>
+              <p>When pasted into the AWS Console, line breaks will be removed. This is OK and should be parsed correctly by .NET. When pasting into the JSON file directly, you will need to <a href="https://onlinestringtools.com/json-stringify-string">stringify the value</a>.</p>
 
               <p>
                 For a more robust solution, you may wish to use AWS Secrets Manager to manage certificates and configuration. For a more detailed guide, see

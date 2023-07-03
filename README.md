@@ -62,7 +62,7 @@ You can find [detailed how-to guides and videos][docs-howto] on the RavenDB docs
 
 [cloud-signup]: https://cloud.ravendb.net?utm_source=github&utm_medium=web&utm_campaign=github_templates_home&utm_content=cloud_signup
 [download]: https://ravendb.net/download?utm_source=github&utm_medium=web&utm_campaign=github_templates_home&utm_content=download
-[docs-get-started]: https://ravendb.net/docs/article-page/csharp/start/getting-started?utm_source=github&utm_medium=web&utm_campaign=github_templates&utm_content=docs_get_started
+[docs-get-started]: https://ravendb.net/docs/article-page/csharp/start/getting-started?utm_source=github&utm_medium=web&utm_campaign=github_templates_home&utm_content=docs_get_started
 [learn-bootcamp]: https://ravendb.net/learn/bootcamp?utm_source=github&utm_medium=web&utm_campaign=github_templates_home&utm_content=learn_bootcamp
 [learn-demo]: https://demo.ravendb.net/?utm_source=github&utm_medium=web&utm_campaign=github_templates_home&utm_content=learn_demo
 [docs-howto]: https://ravendb.net/docs/article-page/csharp/getting-started/guides/?utm_source=github&utm_medium=web&utm_campaign=github_templates_home&utm_content=docs_howto

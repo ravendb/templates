@@ -10,6 +10,7 @@
     <PackageReference Include="RavenDB.Client" Version="5.4.101" />
     <PackageReference Include="RavenDB.DependencyInjection" Version="4.0.2" />
     <PackageReference Include="Scriban" Version="5.7.0" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
